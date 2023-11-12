@@ -13,6 +13,7 @@ let gameStarted = false;
 
 
 function nextSequence(){
+    playerList = [];
     const shuffle = Math.floor(Math.random() * 4);
     const color = colorList[shuffle]
     gameList.push(color)
@@ -30,27 +31,26 @@ function handleClick(e) {
         playerList.push(color);
         const audio = new Audio(`Assets/audio/${color.id}.mp3`);
         audio.play(); 
-        console.log(playerList);
         levelUp();
     }
 }
 
 
 function levelUp(){
-    gameList.forEach(function (element,index){
-        console.log(element===playerList[index])
-        if(element===playerList[index]){
-            nextSequence();
-            return;
-        }
-        else{
+    playerList.forEach(function (element,index){
+        console.log('is equal',element===gameList[index])
+        if(element !== gameList[index]){
             gameStarted = false;
             const audio = new Audio(`Assets/audio/wrong.mp3`);
             audio.play(); 
             playerList=[]
             gameList=[]
+            return;
         }
     })
+    if(playerList.length === gameList.length && gameList.length !== 0){
+     nextSequence();
+    }
 }
 
 
